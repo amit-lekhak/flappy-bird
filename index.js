@@ -101,7 +101,7 @@ const update = () => {
   }
 
   // clear pipes
-  if (pipeArray[0] && pipeArray[0].x < -pipeWidth) {
+  while (pipeArray[0] && pipeArray[0].x < -pipeWidth) {
     pipeArray.shift();
   }
 
