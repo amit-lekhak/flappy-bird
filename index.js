@@ -74,6 +74,11 @@ const update = () => {
     pipe.x += velocityX;
     context.drawImage(pipe.image, pipe.x, pipe.y, pipe.width, pipe.height);
   }
+
+  // clear pipes
+  if (pipeArray[0] && pipeArray[0].x < -pipeWidth) {
+    pipeArray.shift();
+  }
 };
 
 const placePipes = () => {
