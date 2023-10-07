@@ -51,7 +51,7 @@ window.onload = function () {
     context.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height);
   };
 
-  // draw pipes on canvas
+  // assign pipe images
   topPipeImage = new Image();
   topPipeImage.src = "public/images/topPipe.png";
 
@@ -60,6 +60,7 @@ window.onload = function () {
 
   requestAnimationFrame(update);
 
+  // place pipes regularly
   setInterval(placePipes, 1500);
 
   document.addEventListener("keydown", moveBird);
@@ -72,6 +73,7 @@ const update = () => {
   // clear canvas on each frame
   context.clearRect(0, 0, boardWidth, boardHeight);
 
+  // change velocity for fall & prevent bird from going over top
   velocityY += gravity;
 
   bird.y = Math.max(bird.y + velocityY, 0);
@@ -79,6 +81,7 @@ const update = () => {
   // redraw bird on canvas
   context.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height);
 
+  // game over if bird falls to bottom
   if (bird.y > boardHeight) {
     gameOver = true;
   }
@@ -87,6 +90,7 @@ const update = () => {
   for (let i = 0; i < pipeArray.length; i++) {
     let pipe = pipeArray[i];
 
+    // shift pipes to left
     pipe.x += velocityX;
     context.drawImage(pipe.image, pipe.x, pipe.y, pipe.width, pipe.height);
 
@@ -117,8 +121,10 @@ const update = () => {
 
 const moveBird = (event) => {
   if (event.code == "Space" || event.code == "ArrowDown") {
+    // move bird up
     velocityY = -6;
 
+    // reset game
     if (gameOver) {
       pipeArray = [];
       bird.y = birdY;
