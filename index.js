@@ -29,6 +29,8 @@ let topPipeImage, bottomPipeImage;
 
 // physics
 const velocityX = -2;
+let velocityY = 0;
+const gravity = 0.4;
 
 window.onload = function () {
   board = document.getElementById("board");
@@ -53,9 +55,11 @@ window.onload = function () {
   bottomPipeImage = new Image();
   bottomPipeImage.src = "public/images/bottomPipe.png";
 
+  requestAnimationFrame(update);
+
   setInterval(placePipes, 1500);
 
-  requestAnimationFrame(update);
+  document.addEventListener("keydown", moveBird);
 };
 
 const update = () => {
@@ -63,6 +67,10 @@ const update = () => {
 
   // clear canvas on each frame
   context.clearRect(0, 0, boardWidth, boardHeight);
+
+  velocityY += gravity;
+
+  bird.y = Math.max(bird.y + velocityY, 0);
 
   // redraw bird on canvas
   context.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height);
@@ -78,6 +86,12 @@ const update = () => {
   // clear pipes
   if (pipeArray[0] && pipeArray[0].x < -pipeWidth) {
     pipeArray.shift();
+  }
+};
+
+const moveBird = (event) => {
+  if (event.code == "Space" || event.code == "ArrowDown") {
+    velocityY = -6;
   }
 };
 
